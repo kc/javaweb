@@ -17,6 +17,7 @@ public class RegistrationResponseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        System.out.println("req.getSession().getAttribute(\"email\")=" + req.getSession().getAttribute("email"));
         req.getRequestDispatcher("thankyou.jsp").forward(req, resp);
 
         /*
@@ -64,5 +65,4 @@ public class RegistrationResponseServlet extends HttpServlet {
         req.setAttribute("contact", contact);
         req.getRequestDispatcher("thankyou.jsp").forward(req, resp);
     }
-
 }

@@ -12,6 +12,7 @@ import java.io.File;
 
 public class Runner {
 
+    // App works with Java 11, not Java 17 (dependencies are too old).
     // Deploys forumwebapp to http://localhost:8082/
     // Hot deploy of classes DOES NOT WORK! You need to restart the runner for testing your changes.
 
@@ -26,9 +27,9 @@ public class Runner {
         tomcat.setPort(8082);
 
         // Add some roles and users for testing the secured part of the app:
-        // tomcat.addRole("bram", "user");
-        // tomcat.addRole("bram", "admin");
-        // tomcat.addUser("bram", "bram");
+        tomcat.addRole("bram", "user");
+        tomcat.addRole("bram", "admin");
+        tomcat.addUser("bram", "bram");
 
         // This is equivalent to adding a web application to Tomcat's webapps directory:
         StandardContext ctx = (StandardContext) tomcat.addWebapp("", new File(webappLocation).getAbsolutePath());

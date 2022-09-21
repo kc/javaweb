@@ -9,7 +9,7 @@ import java.util.List;
 public enum ContactDao {
     INSTANCE;
 
-    private HashMap<String, Contact> contacts = new HashMap<>();
+    private final HashMap<String, Contact> contacts = new HashMap<>();
 
     public void add(Contact contact) { contacts.put(contact.getEmail(), contact); }
 
