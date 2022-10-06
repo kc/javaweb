@@ -11,17 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-@WebServlet(urlPatterns = "/contacts")
-public class ContactsServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/api/contacts")
+public class ContactsResource extends HttpServlet {
 
-    private ContactDao contactDao = ContactDao.INSTANCE;
+    private final ContactDao contactDao = ContactDao.INSTANCE;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Collection<Contact> contacts = contactDao.getAllContacts();
-        contacts.forEach(System.out::println);
 
-        req.setAttribute("contacts", contacts);
-        req.getRequestDispatcher("contacts.jsp").forward(req, resp);
+        resp.getWriter().write(contacts.toString());
     }
 }

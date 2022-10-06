@@ -2,9 +2,8 @@ package com.example.dao;
 
 import com.example.domain.Contact;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public enum ContactDao {
     INSTANCE;
@@ -15,7 +14,5 @@ public enum ContactDao {
 
     public Contact getContactByEmail(String email) { return contacts.get(email); }
 
-    public List<Contact> getAllContacts() {
-        return new ArrayList<>(contacts.values());
-    }
+    public Collection<Contact> getAllContacts() { return contacts.values(); }
 }
