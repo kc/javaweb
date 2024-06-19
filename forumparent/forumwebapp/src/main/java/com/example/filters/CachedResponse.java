@@ -1,8 +1,8 @@
 package com.example.filters;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -22,7 +22,7 @@ public class CachedResponse extends HttpServletResponseWrapper {
 
     @Override
     public PrintWriter getWriter() throws IOException {
-        if (pw == null){
+        if (pw == null) {
             pw = new PrintWriter(out);
         }
         return pw;

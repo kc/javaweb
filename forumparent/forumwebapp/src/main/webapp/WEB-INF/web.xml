@@ -27,6 +27,7 @@
         <filter-name>ContactsCaching</filter-name>
         <filter-class>com.example.filters.CachingFilter</filter-class>
     </filter>
+
     <filter-mapping>
         <filter-name>RequestLog</filter-name>
         <url-pattern>/*</url-pattern>
@@ -40,9 +41,10 @@
         <url-pattern>/contacts/*</url-pattern>
     </filter-mapping>
 
-    <listener>
-        <listener-class>com.example.listeners.ActiveUsersListener</listener-class>
-    </listener>
+    <!-- Activated with annotation on the class now: -->
+    <!-- <listener>
+         <listener-class>com.example.listeners.ActiveUsersListener</listener-class>
+     </listener>-->
 
     <!-- ############# Security  ############# -->
 

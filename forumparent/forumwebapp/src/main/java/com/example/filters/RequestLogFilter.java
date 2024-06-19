@@ -1,7 +1,10 @@
 package com.example.filters;
 
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import java.io.IOException;
 
 public class RequestLogFilter implements Filter {
@@ -14,5 +17,4 @@ public class RequestLogFilter implements Filter {
 
         System.out.println(("Request took (ms): " + duration));
     }
-
 }

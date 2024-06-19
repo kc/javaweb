@@ -1,46 +1,55 @@
 package com.example;
 
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.WebResourceRoot;
-import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.webresources.DirResourceSet;
 import org.apache.catalina.webresources.StandardRoot;
 
-import javax.servlet.ServletException;
-import java.io.File;
+import java.nio.file.Path;
 
 public class Runner {
 
-    // App works with Java 11, not Java 17 (dependencies are too old).
-    // Deploys forumwebapp to http://localhost:8082/
-    // Hot deploy of classes DOES NOT WORK! You need to restart the runner for testing your changes.
+    // Deploys forumwebapp to http://localhost:8082/forum
 
-    public static void main(String[] args) throws LifecycleException, ServletException {
+    // Hot deploy of classes DOES NOT WORK!
+    // You need to restart the runner for testing your changes.
+
+    public static void main(String[] args) throws LifecycleException {
         String projectRoot = "forumparent/forumwebapp/";
-        String webappLocation = projectRoot + "src/main/webapp/";
-        String classesLocation = projectRoot + "target/classes";
+        String pathToClasses = Path.of(projectRoot + "target/classes").toAbsolutePath().toString();
+        String pathToResources = Path.of(projectRoot + "src/main/webapp/").toAbsolutePath().toString();
+        String pathToLib = Path.of(projectRoot + "src/main/webapp/WEB-INF/lib").toAbsolutePath().toString();
+        String contextRoot = "/";
+        String webInfClasses = "/WEB-INF/classes";
+        String internalPath = "/";
 
-        System.out.println("Configuring app with basedir: " + new File(projectRoot).getAbsolutePath());
+        String username = "bram";
+        String password = "bram";
+        String roleUser = "user";
+        String roleAdmin = "admin";
+
+        System.out.println("Configuring app with basedir: " + Path.of(projectRoot).toAbsolutePath());
 
         Tomcat tomcat = new Tomcat();
         tomcat.setPort(8082);
+        tomcat.getConnector();
+        // Open a port
+        // Connector connector = new Connector();
+        // connector.setPort(8080);
+        // tomcat.getService().addConnector(connector);
 
         // Add some roles and users for testing the secured part of the app:
-        tomcat.addRole("bram", "user");
-        tomcat.addRole("bram", "admin");
-        tomcat.addUser("bram", "bram");
+        tomcat.addRole(username, roleUser);
+        tomcat.addRole(username, roleAdmin);
+        tomcat.addUser(username, password);
 
-        // This is equivalent to adding a web application to Tomcat's webapps directory:
-        StandardContext ctx = (StandardContext) tomcat.addWebapp("", new File(webappLocation).getAbsolutePath());
-
-        // Map the WEB-INF/classes to target/classes
-        WebResourceRoot resources = new StandardRoot(ctx);
-        resources.addPreResources(new DirResourceSet(resources,
-                "/WEB-INF/classes",
-                new File(classesLocation).getAbsolutePath(),
-                "/"));
-        ctx.setResources(resources);
+        // Deploy the web application to Tomcat
+        var webapp = tomcat.addWebapp(contextRoot, pathToResources);
+        // ... and map the path to target/classes to the webapp's internal WEB-INF/classes
+        var webappRoot = new StandardRoot(webapp);
+        webappRoot.addJarResources(new DirResourceSet(webappRoot, webInfClasses, pathToClasses, internalPath));
+        webappRoot.addJarResources(new DirResourceSet(webappRoot, webInfClasses, pathToLib, internalPath));
+        webapp.setResources(webappRoot);
 
         // Start tomcat and wait until it is finished.
         tomcat.start();

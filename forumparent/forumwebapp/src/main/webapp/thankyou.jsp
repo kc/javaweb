@@ -6,7 +6,7 @@
 
 <html>
     <body>
-        <p>Thank you <%=contact.getFullname()%> for contacting us from <%=contact.getEmail()%>!!!!</p>
+        <p>Thank you <%= contact.getFullname() %> for contacting us from <%=contact.getEmail()%>!</p>
         <a href="index.jsp">Home</a>
     </body>
 </html>
